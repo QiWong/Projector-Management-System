@@ -2,6 +2,7 @@ package com.projector.management.server.model;
 
 import com.projector.management.server.util.StringToDateConverter;
 
+import java.util.Calendar;
 import java.util.Date;
 
 public class ReservationRequest {
@@ -21,5 +22,15 @@ public class ReservationRequest {
         Date startTime = converter.convertToDate(this.date, this.startTimeInDay);
         Date endTime = converter.convertToDate(this.date, this.endTimeInDay);
         return new Duration(startTime, endTime);
+    }
+
+    public Date getSameDayStartTime() {
+        StringToDateConverter converter = new StringToDateConverter();
+        return converter.getSameDayStartTime(this.date);
+    }
+
+    public Date getNextDayEndTime() {
+        StringToDateConverter converter = new StringToDateConverter();
+        return converter.getNextDayEndTime(this.date);
     }
 }

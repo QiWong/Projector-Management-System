@@ -1,7 +1,5 @@
 package com.projector.management.server.controller;
 
-import com.projector.management.server.model.User;
-import com.projector.management.server.service.UserService;
 import com.projector.management.server.util.CustomErrorType;
 
 import org.slf4j.Logger;

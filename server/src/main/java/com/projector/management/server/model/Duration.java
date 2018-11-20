@@ -1,7 +1,9 @@
 package com.projector.management.server.model;
 
-import com.sun.scenario.effect.Merge;
-
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -10,20 +12,51 @@ import java.util.Collections;
 
 
 public class Duration {
+    private static final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
     private Date startTime;
     private Date endTime;
+    private String localStartTime;
+    private String localEndTime;
 
     public Duration(Date startTime, Date endTime) {
         this.startTime = startTime;
         this.endTime = endTime;
+        this.localStartTime = convertISODateToLocalTimeString(startTime);
+        this.localEndTime = convertISODateToLocalTimeString(endTime);
+    }
+
+    public String getLocalStartTime() {
+        return localStartTime;
+    }
+
+    public void setLocalStartTime(String localStartTime) {
+        this.localStartTime = localStartTime;
+    }
+
+    public String getLocalEndTime() {
+        return localEndTime;
+    }
+
+    public void setLocalEndTime(String localEndTime) {
+        this.localEndTime = localEndTime;
     }
 
     public Date getStartTime() {
         return startTime;
     }
 
+    private ZonedDateTime convertISODatetoLocal(Date date) {
+        return ZonedDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
+    }
+
+    private String convertISODateToLocalTimeString(Date date) {
+        return dateFormat.format(convertISODatetoLocal(date));
+    }
+
     public void setStartTime(Date startTime) {
         this.startTime = startTime;
+        this.localStartTime = convertISODateToLocalTimeString(startTime);
     }
 
     public Date getEndTime() {
@@ -32,6 +65,7 @@ public class Duration {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+        this.localEndTime = convertISODateToLocalTimeString(endTime);
     }
 
     public boolean checkDurationOverlap(Duration duration) {
@@ -83,6 +117,6 @@ public class Duration {
 
     @Override
     public String toString() {
-        return "StartTime: "+ this.startTime.toString() + ",\nEndTime: "+this.endTime.toString();
+        return "StartTime: "+ this.localStartTime + ",\nEndTime: "+this.localEndTime;
     }
 }

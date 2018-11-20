@@ -16,7 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/projectors")
 public class ProjectorController {
-    public static final Logger logger = LoggerFactory.getLogger(RestApiController.class);
+    public static final Logger logger = LoggerFactory.getLogger(ProjectorController.class);
 
     @Autowired
     ProjectorService projectorService;
@@ -30,8 +30,7 @@ public class ProjectorController {
     public ResponseEntity<List<Projector>> listAllProjectors() {
         List<Projector> projectors = projectorService.findAllProjectors();
         if (projectors.isEmpty()) {
-            return new ResponseEntity(HttpStatus.NO_CONTENT);
-            // You many decide to return HttpStatus.NOT_FOUND
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<List<Projector>>(projectors, HttpStatus.OK);
     }

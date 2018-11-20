@@ -3,11 +3,13 @@ package com.projector.management.server.database;
 import com.projector.management.server.model.Duration;
 import com.projector.management.server.model.Projector;
 import com.projector.management.server.model.Reservation;
+import com.projector.management.server.util.customexceptions.ReservationNotFoundException;
 
 import java.util.*;
 
 public class DataBase {
     private static final List<Projector> projectors = new ArrayList<>();
+    private static final HashMap<Long, Reservation> reservationsMap = new HashMap<>();
     private static final HashMap<Projector, ArrayList<Reservation>> projectorReservationsMap = new HashMap<>();
 
     public static void saveProjectorToDB(Projector projector) {
@@ -17,6 +19,8 @@ public class DataBase {
     }
 
     public static void addRservationInDB(Reservation reservation) {
+        reservationsMap.put(reservation.getId(), reservation);
+
         Projector projector = reservation.getProjector();
         if (projectorReservationsMap.containsKey(projector)) {
             projectorReservationsMap.get(projector).add(reservation);
@@ -24,6 +28,38 @@ public class DataBase {
           ArrayList<Reservation> reservations = new ArrayList<>();
           reservations.add(reservation);
             projectorReservationsMap.put(projector, reservations);
+        }
+    }
+
+    private static boolean checkReservationExists(Long id) {
+        if (reservationsMap.containsKey(id)) {
+            return true;
+        }
+        return false;
+    }
+
+    public static void deleteProjector(Long id) throws ReservationNotFoundException {
+        if (checkReservationExists(id)) {
+            Reservation reservation = findReservationById(id);
+            reservationsMap.remove(id);
+            ArrayList<Reservation> reservations = projectorReservationsMap.get(reservation.getProjector());
+            for (int i = 0; i<reservations.size();i++) {
+                if (reservations.get(i).getId() == id) {
+                    reservations.remove(i);
+                    break;
+                }
+            }
+            projectorReservationsMap.put(reservation.getProjector(), reservations);
+        } else {
+            throw new ReservationNotFoundException("Reservation " + id + " Not Found");
+        }
+    }
+
+    public static Reservation findReservationById(Long id) throws ReservationNotFoundException {
+        if (checkReservationExists(id)) {
+            return reservationsMap.get(id);
+        } else {
+            throw new ReservationNotFoundException("Reservation "+id+" Not Found");
         }
     }
 

@@ -10,8 +10,15 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+/**
+ * Test the Duration class.
+ * @author Qi Wang
+ */
 public class DurationTest {
 
+    /**
+     * test the function that checks if there is an overlap between two intervals
+     */
     @Test
     public void checkDurationOverlap() {
         Duration testDuration1 = DurationTestUtil.getTestDuration("2018-11-20 08:00:00", "2018-11-20 12:00:00");
@@ -22,6 +29,9 @@ public class DurationTest {
         assertFalse(testDuration1.checkDurationOverlap(testDuration3));
     }
 
+    /**
+     * test the function that merge two list of durations
+     */
     @Test
     public void mergeDurationLists() {
         Duration testDuration1 = DurationTestUtil.getTestDuration("2018-11-20 08:00:00", "2018-11-20 11:00:00");

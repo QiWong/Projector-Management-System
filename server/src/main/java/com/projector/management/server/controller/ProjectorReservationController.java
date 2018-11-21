@@ -75,7 +75,9 @@ public class ProjectorReservationController {
     /**
      * Return the information of a reservation whose id is provided in the HTTP GET request.
      * @param id long type. The id of a reservation
-     * @return 
+     * @return the details of reservation, including which projector is reserved and the start time,
+     * end time of the reservation. If no such reservation exists, then return
+     * the reservation not found error information.
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getReservationById(@PathVariable("id") long id) {
@@ -87,6 +89,13 @@ public class ProjectorReservationController {
         }
     }
 
+
+    /**
+     * Cancel the reservation based on the reservation id.
+     * @param id long type. The id of a reservation.
+     * @return return HTTP.OK status if the reservation is cancelled successfully.
+     * Otherwise return the error showing the reservation is not found.
+     */
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteReservation(@PathVariable("id") long id) {
         logger.info("delete reservation {}", id);

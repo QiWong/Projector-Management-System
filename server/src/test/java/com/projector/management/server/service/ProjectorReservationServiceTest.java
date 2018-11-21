@@ -15,22 +15,32 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+/**
+ * Test the ProjectorService class.
+ * @author Qi Wang
+ */
 public class ProjectorReservationServiceTest {
 
     private ProjectorReservationService projectorReservationService = new ProjectorReservationServiceImpl();
 
+    //create a reservation request for test only
     private ReservationRequest getTestReservationRequest() {
         return new ReservationRequest("2018-11-20", "08:00:00","16:00:00");
     }
 
+    /**
+     * Test the function that process the reservation request.
+     */
     @Test
     public void processReservationReq() {
         ReservationRequest testRequest = getTestReservationRequest();
         try {
+            //create a reservation request
             Reservation reservationRes = projectorReservationService.processReservationReq(testRequest);
             Duration exptectedDuration = testRequest.getRequestDuration();
             Reservation expectedReservation = new Reservation(1, DataBase.getProjectorByIndex(0), exptectedDuration);
 
+            //test if this reservation is added successfully
             assertEquals(expectedReservation.getProjector(), reservationRes.getProjector());
             assertEquals(expectedReservation.getId(), reservationRes.getId());
             assertEquals(expectedReservation.getDuration(), reservationRes.getDuration());
@@ -40,6 +50,9 @@ public class ProjectorReservationServiceTest {
         }
     }
 
+    /**
+     * Test the function that finds the available duration.
+     */
     @Test
     public void findOtherAvailableDurationsForRequest() {
         ReservationRequest testRequest = getTestReservationRequest();
@@ -53,15 +66,20 @@ public class ProjectorReservationServiceTest {
         }
     }
 
+    /**
+     * Test the function that finds the reservation based on id.
+     */
     @Test
     public void getReservationById() {
         ReservationRequest testRequest = getTestReservationRequest();
         try {
+            //create a reservation
             projectorReservationService.processReservationReq(testRequest);
             Reservation reservation = projectorReservationService.getReservationById((long)1);
             Duration exptectedDuration = testRequest.getRequestDuration();
             Reservation expectedReservation = new Reservation(1, DataBase.getProjectorByIndex(0), exptectedDuration);
 
+            //then test the reservation details
             assertEquals(expectedReservation.getProjector(), reservation.getProjector());
             assertEquals(expectedReservation.getId(), reservation.getId());
             assertEquals(exptectedDuration.getStartTime(), reservation.getDuration().getStartTime());
@@ -74,13 +92,17 @@ public class ProjectorReservationServiceTest {
         }
     }
 
+    /**
+     * Test the function that cancel the reservation based on id.
+     */
     @Test
     public void cancelReservation() {
         ReservationRequest testRequest = getTestReservationRequest();
         try {
+            //create a reservation
             Reservation reservation = projectorReservationService.processReservationReq(testRequest);
             assertEquals(DataBase.getAllReservations().size(), 1);
-
+            //then delete this reservation
             projectorReservationService.cancelReservation(reservation.getId());
             assertTrue(DataBase.getAllReservations().isEmpty());
         } catch (RequestDurationNotAvailableException e) {

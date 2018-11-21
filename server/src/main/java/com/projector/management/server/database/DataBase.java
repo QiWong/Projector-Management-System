@@ -12,10 +12,26 @@ public class DataBase {
     private static final HashMap<Long, Reservation> reservationsMap = new HashMap<>();
     private static final HashMap<Projector, ArrayList<Reservation>> projectorReservationsMap = new HashMap<>();
 
+    static {
+        populateDummyProjectors();
+    }
+
+    private static void populateDummyProjectors() {
+        //populate 10 projectors into the database.
+        for (int i = 0; i < 10; i++) {
+            Projector projector = new Projector((long)i, "P" + i);
+            saveProjectorToDB(projector);
+        }
+    }
+
     public static void saveProjectorToDB(Projector projector) {
         if (projector != null) {
             projectors.add(projector);
         }
+    }
+
+    public static Projector getProjectorByIndex(int index) {
+        return projectors.get(index);
     }
 
     public static void addRservationInDB(Reservation reservation) {
@@ -31,14 +47,24 @@ public class DataBase {
         }
     }
 
-    private static boolean checkReservationExists(Long id) {
+    public static List<Reservation> getAllReservations() {
+        List<Reservation> allReservations = new ArrayList<>();
+
+        for(Map.Entry<Long, Reservation> map : reservationsMap.entrySet()){
+            allReservations.add(map.getValue());
+        }
+
+        return allReservations;
+    }
+
+    private static boolean checkReservationExists(long id) {
         if (reservationsMap.containsKey(id)) {
             return true;
         }
         return false;
     }
 
-    public static void deleteProjector(Long id) throws ReservationNotFoundException {
+    public static void deleteProjector(long id) throws ReservationNotFoundException {
         if (checkReservationExists(id)) {
             Reservation reservation = findReservationById(id);
             reservationsMap.remove(id);

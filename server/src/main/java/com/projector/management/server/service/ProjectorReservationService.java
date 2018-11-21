@@ -7,7 +7,6 @@ import com.projector.management.server.util.customexceptions.NoAvailableDuration
 import com.projector.management.server.util.customexceptions.RequestDurationNotAvailableException;
 import com.projector.management.server.util.customexceptions.ReservationNotFoundException;
 
-import java.util.Date;
 import java.util.List;
 
 public interface ProjectorReservationService {
@@ -15,7 +14,7 @@ public interface ProjectorReservationService {
 
     List<Duration> findOtherAvailableDurationsForRequest(ReservationRequest reservationRequest) throws NoAvailableDurationException;
 
-    Reservation getReservationById(Long id) throws ReservationNotFoundException;
+    Reservation getReservationById(long id) throws ReservationNotFoundException;
 
-    void cancelReservation(Long id) throws ReservationNotFoundException;
+    void cancelReservation(long id) throws ReservationNotFoundException;
 }

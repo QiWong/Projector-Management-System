@@ -21,11 +21,11 @@ public class ProjectorReservationServiceImpl implements ProjectorReservationServ
 
     private static final AtomicLong reservationCounter = new AtomicLong();
 
-    public Reservation getReservationById(Long id) throws ReservationNotFoundException {
+    public Reservation getReservationById(long id) throws ReservationNotFoundException {
         return DataBase.findReservationById(id);
     }
 
-    public void cancelReservation(Long id) throws ReservationNotFoundException {
+    public void cancelReservation(long id) throws ReservationNotFoundException {
         DataBase.deleteProjector(id);
     }
 

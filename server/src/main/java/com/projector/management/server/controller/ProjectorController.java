@@ -13,11 +13,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * Rest API Controller for projectors data services.
+ * For example, get all the projectors information from Database.
+ *
+ * @author Qi
+ */
 @RestController
 @RequestMapping("/projectors")
 public class ProjectorController {
     public static final Logger logger = LoggerFactory.getLogger(ProjectorController.class);
 
+    /**
+     * The logic for processing the operations of projectors.
+     */
     @Autowired
     ProjectorService projectorService;
 

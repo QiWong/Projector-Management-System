@@ -1,5 +1,7 @@
 package com.projector.management.server.model;
 
+import java.util.Objects;
+
 public class Projector {
 
     private long id;
@@ -24,5 +26,25 @@ public class Projector {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Projector projector = (Projector) obj;
+        if (this.id != projector.getId() || !this.name.equals(projector.getName())) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.id, this.name);
     }
 }

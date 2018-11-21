@@ -13,20 +13,20 @@ public class ProjectorServiceImpl implements ProjectorService {
 
     private static final AtomicLong projectorCounter = new AtomicLong();
 
-    static {
-        //populate dummy data into database
-        populateDummyProjectors();
-    }
+//    static {
+//        //populate dummy data into database
+//        populateDummyProjectors();
+//    }
+
+//    private static void populateDummyProjectors() {
+//        //populate 10 projectors into the database.
+//        for (int i = 0; i < 10; i++) {
+//            Projector projector = new Projector(projectorCounter.incrementAndGet(), "P" + i);
+//            DataBase.saveProjectorToDB(projector);
+//        }
+//    }
 
     public List<Projector> findAllProjectors() {
         return DataBase.findAllProjectors();
-    }
-
-    private static void populateDummyProjectors(){
-        //populate 10 projectors into the database.
-        for (int i = 0; i < 10; i++) {
-            Projector projector = new Projector(projectorCounter.incrementAndGet(), "P"+i);
-            DataBase.saveProjectorToDB(projector);
-        }
     }
 }

@@ -1,0 +1,8 @@
+com.projector.management.server
+com.projector.management.server.controller
+com.projector.management.server.database
+com.projector.management.server.model
+com.projector.management.server.service
+com.projector.management.server.service.impl
+com.projector.management.server.util
+com.projector.management.server.util.customexceptions
